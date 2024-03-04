@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QMenuBar>
+#include <QFileDialog>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,12 +17,22 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+
+    void OpenFile();
+
+signals:
+
+
+
 private:
     Ui::MainWindow *ui;
 
     QMenuBar *m_menubar;
     QMenu *m_fileMenu;
     QMenu *m_editMenu;
+
+    QString m_filename;
 
     void _SetupMenuBars();
 };

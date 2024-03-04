@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_menubar(new QMenuBar(parent))
     , m_fileMenu(new QMenu("File"))
     , m_editMenu(new QMenu("Edit"))
+    , m_filename()
 {
     ui->setupUi(this);
 
@@ -19,6 +20,11 @@ MainWindow::~MainWindow()
     delete m_fileMenu;
     delete m_editMenu;
     delete m_menubar;
+}
+
+void MainWindow::OpenFile()
+{
+    m_filename = QFileDialog::getOpenFileName(this, tr("Open File"));
 }
 
 void MainWindow::_SetupMenuBars()
@@ -41,5 +47,6 @@ void MainWindow::_SetupMenuBars()
     this->setMenuBar(m_menubar);
 
     connect(appExitAction, &QAction::triggered, this, &QApplication::quit);
+    connect(fileOpenAction, &QAction::triggered, this, &MainWindow::OpenFile);
 }
 
