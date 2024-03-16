@@ -10,13 +10,19 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
-    qcustomplot.cpp
+    mainwindow.cpp \
+    qcustomplot.cpp \
+    qspectrogram.cpp \
+    qtimeseriesplot.cpp \
+    qvariableplot.cpp
 
 HEADERS += \
-    mainwindow.h
-    fftw3.h
-    qcustomplot.h
+    fftw3.h \
+    mainwindow.h \
+    qcustomplot.h \
+    qspectrogram.h \
+    qtimeseriesplot.h \
+    qvariableplot.h
 
 FORMS += \
     mainwindow.ui
