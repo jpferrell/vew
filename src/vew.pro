@@ -12,6 +12,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     qcustomplot.cpp \
+    qoptionswidget.cpp \
+    qplotoptionswidget.cpp \
     qspectrogram.cpp \
     qtimeseriesplot.cpp \
     qvariableplot.cpp
@@ -20,6 +22,8 @@ HEADERS += \
     fftw3.h \
     mainwindow.h \
     qcustomplot.h \
+    qoptionswidget.h \
+    qplotoptionswidget.h \
     qspectrogram.h \
     qtimeseriesplot.h \
     qvariableplot.h

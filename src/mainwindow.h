@@ -4,8 +4,14 @@
 #include <QMainWindow>
 #include <QMenuBar>
 #include <QFileDialog>
+
+#include <memory>
+
 #include <qspectrogram.h>
 #include <qvariableplot.h>
+#include <qplotoptionswidget.h>
+#include <qoptionswidget.h>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,9 +24,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
-    const int MAX_FFT_POWER = 16;
-    const int MIN_FFT_POWER = 8;
 
 public slots:
 
@@ -37,7 +40,8 @@ private:
     QWidget *m_dummyWidget; // Dummy widget that is set to central widget to hold layout
     QHBoxLayout *m_overallLayout;
     QVBoxLayout *m_plotsLayout;
-    QVBoxLayout *m_optionsLayout;
+    std::unique_ptr<QOptionsWidget> m_optionsWidget;
+    std::unique_ptr<QPlotOptionsWidget> m_plotOptionsWidget;
 
     //Plots
     QSpectrogram *m_spectrogramPlot;
@@ -47,14 +51,6 @@ private:
     QMenuBar *m_menubar;
     QMenu *m_fileMenu;
     QMenu *m_editMenu;
-
-    // Combo Boxes
-    QComboBox *m_fftComboBox;
-    QComboBox *m_plotComboBox;
-
-    // Labels
-    QLabel *m_fftLabel;
-    QLabel *m_plotLabel;
 
     QFile *m_file;
     QString m_filename;

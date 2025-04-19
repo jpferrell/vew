@@ -7,16 +7,13 @@ MainWindow::MainWindow(QWidget *parent)
     , m_dummyWidget(new QWidget())
     , m_overallLayout(new QHBoxLayout())
     , m_plotsLayout(new QVBoxLayout())
-    , m_optionsLayout(new QVBoxLayout())
+    , m_optionsWidget(std::make_unique<QOptionsWidget>())
+    , m_plotOptionsWidget(std::make_unique<QPlotOptionsWidget>())
     , m_spectrogramPlot(new QSpectrogram())
     , m_variablePlot(new QVariablePlot())
     , m_menubar(new QMenuBar(parent))
     , m_fileMenu(new QMenu("File"))
     , m_editMenu(new QMenu("Edit"))
-    , m_fftComboBox(new QComboBox())
-    , m_plotComboBox(new QComboBox())
-    , m_fftLabel(new QLabel())
-    , m_plotLabel(new QLabel())
     , m_file(NULL)
     , m_filename()
 {
@@ -24,12 +21,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     _setupMenuBars();
     _setupLayouts();
-    _setupComboBoxes();
-    _setupLabels();
+
+    this->setMenuBar(m_menubar);
 
     // Connections
-    connect(m_plotComboBox, &QComboBox::currentIndexChanged, m_variablePlot, &QVariablePlot::currentPlotChanged);
-    connect(m_fftComboBox, &QComboBox::currentIndexChanged, m_variablePlot, &QVariablePlot::fftSizeChanged);
+    //connect(m_plotComboBox, &QComboBox::currentIndexChanged, m_variablePlot, &QVariablePlot::currentPlotChanged);
+    //connect(m_fftComboBox, &QComboBox::currentIndexChanged, m_variablePlot, &QVariablePlot::fftSizeChanged);
 }
 
 MainWindow::~MainWindow()
@@ -47,16 +44,13 @@ void MainWindow::openFile()
 
 void MainWindow::_setupLayouts()
 {
-    m_optionsLayout->addWidget(m_fftLabel);
-    m_optionsLayout->addWidget(m_fftComboBox);
-    m_optionsLayout->addWidget(m_plotLabel);
-    m_optionsLayout->addWidget(m_plotComboBox);
-
     m_plotsLayout->addWidget(m_spectrogramPlot);
     m_plotsLayout->addWidget(m_variablePlot);
 
-    m_overallLayout->addLayout(m_optionsLayout, 10);
-    m_overallLayout->addLayout(m_plotsLayout, 90);
+    //m_overallLayout->addLayout(m_optionsLayout, 10);
+    m_overallLayout->addWidget(m_plotOptionsWidget.get(), 10);
+    m_overallLayout->addLayout(m_plotsLayout, 80);
+    m_overallLayout->addWidget(m_optionsWidget.get());
     m_dummyWidget->setLayout(m_overallLayout);
     setCentralWidget(m_dummyWidget);
 }
@@ -84,19 +78,6 @@ void MainWindow::_setupMenuBars()
     connect(fileOpenAction, &QAction::triggered, this, &MainWindow::openFile);
 }
 
-void MainWindow::_setupComboBoxes()
-{
-    m_plotComboBox->addItem("FFT");
-    m_plotComboBox->addItem("Real");
-    m_plotComboBox->addItem("Imaginary");
-    m_plotComboBox->addItem("Power");
-    m_plotComboBox->addItem("Scatter");
-
-    for (int idx = MIN_FFT_POWER; idx < MAX_FFT_POWER; idx++) {
-        m_fftComboBox->addItem(QString::number(pow(2, idx)));
-    }
-}
-
 void MainWindow::_setupSliders()
 {
 
@@ -111,10 +92,3 @@ void MainWindow::_setupLineEdits()
 {
 
 }
-
-void MainWindow::_setupLabels()
-{
-    m_fftLabel->setText("FFT Size");
-    m_plotLabel->setText("Plot Type");
-}
-
